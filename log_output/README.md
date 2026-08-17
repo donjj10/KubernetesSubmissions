@@ -1,3 +1,3 @@
 # Log output app
 
-Run with `kubectl create deployment log-output --image=log-output:1.1`
+Run with `kubectl apply -f manifests/deployment.yaml`
