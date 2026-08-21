@@ -9,3 +9,4 @@
 - [1.3 Declarative Deployment](./log_output)
 - [1.4 Todo App Deployment](./todo_app)
 - [1.5 Todo App - GET endpoint](./todo_app)
+- [1.6 Todo App - NodePort Service](./todo_app)
