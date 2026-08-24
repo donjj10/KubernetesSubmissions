@@ -15,6 +15,7 @@ spec:
     spec:
       containers:
         - name: log-output
-          image: log-output:1.3
+          image: log_output:1.7
           imagePullPolicy: Never
-
+          ports:
+            - containerPort: 3000
