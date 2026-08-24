@@ -11,3 +11,4 @@
 - [1.5 Todo App - GET endpoint](./todo_app)
 - [1.6 Todo App - NodePort Service](./todo_app)
 - [1.7 Log Output - HTTP endpoint and Ingress](./log_output)
+- [1.8 Todo App - Ingress](./todo_app)
