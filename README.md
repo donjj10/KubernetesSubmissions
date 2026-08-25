@@ -12,3 +12,4 @@
 - [1.6 Todo App - NodePort Service](./todo_app)
 - [1.7 Log Output - HTTP endpoint and Ingress](./log_output)
 - [1.8 Todo App - Ingress](./todo_app)
+- [1.9 Ping-Pong App and shared Ingress](./ping_pong)
