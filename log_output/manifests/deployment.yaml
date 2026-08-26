@@ -13,9 +13,23 @@ spec:
       labels:
         app: log-output
     spec:
+      volumes:
+        - name: shared-data
+          emptyDir: {}
       containers:
-        - name: log-output
-          image: log_output:1.7
+        - name: log-generator
+          image: log-output-generator:1.10
           imagePullPolicy: Never
           ports:
             - containerPort: 3000
+          volumeMounts:
+            - name: shared-data
+              mountPath: /shared
+        - name: log-reader
+          image: log-output-reader:1.10
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3001
+          volumeMounts:
+            - name: shared-data
+              mountPath: /shared
