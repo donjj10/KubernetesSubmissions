@@ -15,3 +15,4 @@
 - [1.9 Ping-Pong App and shared Ingress](./ping_pong)
 - [1.10 Log Output - two containers in one Pod](./log_output)
 - [1.11 Persisting Data](./log_output)
+-[1.12 Todo App - Add Persistent Image](./todo_app)

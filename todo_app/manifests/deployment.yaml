@@ -14,12 +14,22 @@ spec:
       labels:
         app: todo-app
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: k3d-k3s-default-agent-0
       containers:
         - name: todo-app
-          image: todo-app:1.5.2
+          image: todo-app:1.12.4
           env:
             - name: PORT
               value: "3000"
           imagePullPolicy: Never
+
+          volumeMounts:
+            - name: image-cache
+              mountPath: /cache
+      volumes:
+        - name: image-cache
+          persistentVolumeClaim:
+            claimName: todo-image-pvc
 ---
 
