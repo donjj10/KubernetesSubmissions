@@ -1,12 +1,13 @@
 # Log output app
 
-The application runs as two containers in a single Pod:
+Log Output and Ping-Pong share data through a PersistentVolumeClaim.
 
-- `log-generator` writes timestamp + random string to a shared file.
-- `log-reader` reads the shared file and serves it over HTTP.
+Deploy infrastructure with:
 
-Run with `kubectl apply -f manifests/`
+`kubectl apply -f infra/storage/`
 
-View generator logs with `kubectl logs -f deployment/log-output -c log-generator`
+Deploy the applications with:
 
-View reader logs with `kubectl logs -f deployment/log-output -c log-reader`
+`kubectl apply -f log_output/manifests/`
+
+`kubectl apply -f ping_pong/manifests/`

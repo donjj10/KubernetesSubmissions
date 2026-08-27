@@ -2,25 +2,31 @@ import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 PORT = int(os.environ.get("PORT", 3000))
-file_path = "/shared/output.log"
+
+output_file = "/shared/output.log"
+pingpong_file = "/shared/pingpong.txt"
+
+
+def read_file(path, default=""):
+    try:
+        with open(path, "r") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        return default
 
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/":
-            try:
-                with open(file_path, "r") as f:
-                    content = f.read()
+            status = read_file(output_file, "Waiting for log output")
+            pingpong = read_file(pingpong_file, "0")
 
-                self.send_response(200)
-                self.send_header("Content-type", "text/plain")
-                self.end_headers()
-                self.wfile.write(content.encode())
+            response = f"{status}\nPing / Pongs: {pingpong}"
 
-            except FileNotFoundError:
-                self.send_response(503)
-                self.end_headers()
-                self.wfile.write(b"Waiting for log output")
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(response.encode())
 
         else:
             self.send_response(404)

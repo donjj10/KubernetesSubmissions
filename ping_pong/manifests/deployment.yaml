@@ -12,10 +12,17 @@ spec:
       labels:
         app: ping-pong
     spec:
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: image-claim
       containers:
       - name: ping-pong-container
-        image: ping-pong:1.9
+        image: ping-pong:1.11
         imagePullPolicy: Never
+        volumeMounts:
+        - name: shared-data
+          mountPath: /shared
         env:
         - name: PORT
           value: "3000"

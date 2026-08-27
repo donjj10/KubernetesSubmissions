@@ -3,14 +3,27 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 PORT = int(os.environ.get("PORT", 3000))
 
-counter = 0
+file_path = "/shared/pingpong.txt"
+
+
+def read_counter():
+    try:
+        with open(file_path, "r") as f:
+            return int(f.read().strip())
+    except (FileNotFoundError, ValueError):
+        return 0
+
+
+def write_counter(value):
+    with open(file_path, "w") as f:
+        f.write(str(value))
 
 
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
-        global counter
-
         if self.path == "/pingpong":
+            counter = read_counter()
+
             response = f"pong {counter}"
 
             self.send_response(200)
@@ -18,7 +31,7 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response.encode())
 
-            counter += 1
+            write_counter(counter + 1)
 
         else:
             self.send_response(404)
