@@ -59,28 +59,80 @@ class Handler(BaseHTTPRequestHandler):
             html = """
             <!DOCTYPE html>
             <html>
-                <head>
-                    <title>Todo App</title>
-                </head>
+            <head>
+                <title>Todo App</title>
 
-                <body>
-                    <h1>Todo App</h1>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        max-width: 800px;
+                        margin: 50px auto;
+                        padding: 20px;
+                    }
 
-                    <img
-                        src="/todo/image"
-                        alt="Random image"
-                        style="max-width: 600px;"
-                    >
+                    h1, h2 {
+                        text-align: center;
+                    }
 
-                    <h2>Todo</h2>
+                    img {
+                        display: block;
+                        max-width: 500px;
+                        width: 100%;
+                        margin: 30px auto;
+                    }
 
+                    .todo-form {
+                        display: flex;
+                        gap: 10px;
+                        margin: 30px 0;
+                    }
+
+                    input {
+                        flex: 1;
+                        padding: 12px;
+                        font-size: 16px;
+                    }
+
+                    button {
+                        padding: 12px 24px;
+                        cursor: pointer;
+                    }
+
+                    li {
+                        padding: 12px;
+                        margin-bottom: 8px;
+                        background: #f4f4f4;
+                    }
+                </style>
+            </head>
+
+            <body>
+
+                <h1>Todo App</h1>
+
+                <img src="/todo/image" alt="Random image">
+
+                <div class="todo-form">
                     <input
                         type="text"
-                        placeholder="Enter todo"
+                        maxlength="140"
+                        placeholder="Enter a new todo (max 140 characters)"
                     >
 
-                    <button>Add todo</button>
-                </body>
+                    <button type="button">
+                        Send
+                    </button>
+                </div>
+
+                <h2>Todos</h2>
+
+                <ul>
+                    <li>Learn Kubernetes basics</li>
+                    <li>Deploy application to cluster</li>
+                    <li>Configure persistent volumes</li>
+                </ul>
+
+            </body>
             </html>
             """
 
