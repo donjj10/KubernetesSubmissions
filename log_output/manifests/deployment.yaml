@@ -13,10 +13,6 @@ spec:
       labels:
         app: log-output
     spec:
-      volumes:
-        - name: shared-data
-          persistentVolumeClaim:
-            claimName: image-claim
       containers:
         - name: log-generator
           image: log-output-generator:1.10
@@ -27,10 +23,13 @@ spec:
             - name: shared-data
               mountPath: /shared
         - name: log-reader
-          image: log-output-reader:1.11
+          image: log_output_reader:2.1
           imagePullPolicy: Never
           ports:
-            - containerPort: 3001
+            - containerPort: 3000
           volumeMounts:
             - name: shared-data
               mountPath: /shared
+      volumes:
+        - name: shared-data
+          emptyDir: {}
