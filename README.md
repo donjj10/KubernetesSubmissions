@@ -1,4 +1,4 @@
-# KubernetesSubmissions
+#KubernetesSubmissions
 
 ## Exercises
 
@@ -17,3 +17,4 @@
 - [1.11 Persisting Data](./log_output)
 - [1.12 Todo App - Add Persistent Image](./todo_app)
 - [1.13 Todo App - Todo UI](./todo_app)
+- [2.1 Connecting pods](./log_output)
