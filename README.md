@@ -18,3 +18,4 @@
 - [1.12 Todo App - Add Persistent Image](./todo_app)
 - [1.13 Todo App - Todo UI](./todo_app)
 - [2.1 Connecting pods](./log_output)
+- [2.2 Added a separate Todo Backend service](./todo_backend)
