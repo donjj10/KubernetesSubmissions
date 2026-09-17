@@ -19,3 +19,4 @@
 - [1.13 Todo App - Todo UI](./todo_app)
 - [2.1 Connecting pods](./log_output)
 - [2.2 Added a separate Todo Backend service](./todo_backend)
+- [2.3 created "exercises" namespace for Log-output and Ping-pong]
