@@ -3,6 +3,7 @@ kind: Deployment
 
 metadata:
   name: todo-backend
+  namespace: project
 
 spec:
   replicas: 1
