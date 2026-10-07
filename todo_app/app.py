@@ -7,7 +7,9 @@ import urllib.parse
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
-PORT = int(os.environ.get("PORT", 3000))
+# PORT = int(os.environ.get("PORT", 3000))
+PORT = int(os.environ["PORT"])
+IMAGE_URL = os.environ["IMAGE_URL"]
 
 # Image cache
 CACHE_DIR = "/cache"
@@ -15,7 +17,9 @@ IMAGE_PATH = os.path.join(CACHE_DIR, "image.jpg")
 CACHE_SECONDS = 600  # 10 minutes
 
 # Kubernetes Service for todo-backend
-TODO_BACKEND_URL = "http://todo-backend-svc:3000"
+# TODO_BACKEND_URL = "http://todo-backend-svc:3000"
+
+TODO_BACKEND_URL = os.environ["TODO_BACKEND_URL"]
 
 
 
@@ -40,7 +44,7 @@ def download_image():
     temp_path = IMAGE_PATH + ".tmp"
 
     urllib.request.urlretrieve(
-        "https://picsum.photos/1200",
+        IMAGE_URL,
         temp_path
     )
 

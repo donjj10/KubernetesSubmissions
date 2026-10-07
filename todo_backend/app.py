@@ -2,7 +2,9 @@ import json
 import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-PORT = int(os.environ.get("PORT", 3000))
+# PORT = int(os.environ.get("PORT", 3000))
+
+PORT = int(os.environ["PORT"])
 
 todos = [
     "Learn Kubernetes",
