@@ -21,3 +21,4 @@
 - [2.2 Added a separate Todo Backend service](./todo_backend)
 - [2.3 created "exercises" namespace for Log-output and Ping-pong](./log_output)
 - [2.4 Project Namespace](./todo_app)
+- [2.5 Added configMap for log-output](./log_output)

@@ -24,13 +24,25 @@ spec:
             - name: shared-data
               mountPath: /shared
         - name: log-reader
-          image: log_output_reader:2.1
+          image: log-output-reader:2.8
+          env:
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: log-output-config
+                  key: MESSAGE
           imagePullPolicy: Never
           ports:
             - containerPort: 3000
           volumeMounts:
             - name: shared-data
               mountPath: /shared
+            - name: config-volume
+              mountPath: /config
+
       volumes:
         - name: shared-data
           emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: log-output-config

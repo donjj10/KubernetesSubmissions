@@ -1,3 +1,4 @@
+
 import os
 import urllib.request
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -5,6 +6,9 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 PORT = int(os.environ.get("PORT", 3000))
 
 OUTPUT_FILE = "/shared/output.log"
+
+CONFIG_FILE = "/config/information.txt"
+MESSAGE = os.environ.get("MESSAGE", "")
 
 PING_PONG_URL = "http://ping-pong-svc:3000/pings"
 
@@ -15,6 +19,14 @@ def read_output():
             return f.read().strip()
     except FileNotFoundError:
         return "Waiting for log output"
+
+
+def read_config_file():
+    try:
+        with open(CONFIG_FILE, "r") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        return "Config file not found"
 
 
 def get_ping_count():
@@ -34,9 +46,12 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/":
 
             output = read_output()
+            file_content = read_config_file()
             ping_count = get_ping_count()
 
             response = (
+                f"file content: {file_content}\n"
+                f"env variable: MESSAGE={MESSAGE}\n"
                 f"{output}\n"
                 f"Ping / Pongs: {ping_count}"
             )
