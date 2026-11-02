@@ -1,6 +1,5 @@
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
   name: todo-backend
   namespace: project
@@ -17,11 +16,36 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: todo-backend:1.3
+          image: todo-backend:2.8
           imagePullPolicy: Never
+
           env:
             - name: PORT
               value: "3000"
+
+            - name: DB_HOST
+              value: todo-postgres-svc
+
+            - name: DB_PORT
+              value: "5432"
+
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: todo-postgres-secret
+                  key: POSTGRES_DB
+
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: todo-postgres-secret
+                  key: POSTGRES_USER
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: todo-postgres-secret
+                  key: POSTGRES_PASSWORD
+
           ports:
             - containerPort: 3000
-      
