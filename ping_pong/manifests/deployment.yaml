@@ -15,10 +15,35 @@ spec:
     spec:
       containers:
       - name: ping-pong-container
-        image: ping_pong:2.1
+        image: ping_pong:2.7
         imagePullPolicy: Never
         env:
         - name: PORT
           value: "3000"
+
+        - name: DB_HOST
+          value: postgres-svc
+
+        - name: DB_PORT
+          value: "5432"
+
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_DB
+
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+
         ports:
         - containerPort: 3000

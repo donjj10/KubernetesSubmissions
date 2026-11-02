@@ -23,3 +23,4 @@
 - [2.4 Project Namespace](./todo_app)
 - [2.5 Added configMap for log-output](./log_output)
 - [2.6 Added configMap for Project](./todo_app)
+- [2.7 Added PostgreSQL statefulset for ping-pong](./ping_pong)
