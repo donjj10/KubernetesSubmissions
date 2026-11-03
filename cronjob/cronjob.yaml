@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wikipedia-todo
+  namespace: project
+spec:
+  schedule: "0 * * * *"
+  timeZone: "UTC"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: wikipedia-todo
+              image: python:3.13-alpine
+              imagePullPolicy: IfNotPresent
+              command:
+                - python
+                - /app/random_wikipedia.py
+              volumeMounts:
+              - name: script
+                mountPath: /app
+                readOnly: true
+          volumes:
+            - name: script
+              configMap:
+                name: wikipedia-todo-script
