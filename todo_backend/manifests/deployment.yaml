@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: todo-backend:2.8git
+          image: todo-backend:2.10
           imagePullPolicy: Never
 
           env:

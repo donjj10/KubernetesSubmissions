@@ -1,4 +1,6 @@
+
 import json
+import logging
 import os
 import time
 from contextlib import closing
@@ -16,6 +18,15 @@ DB_CONFIG = {
     "user": os.environ["DB_USER"],
     "password": os.environ["DB_PASSWORD"],
 }
+
+# Configure application logging to stdout.
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+    force=True
+)
+
+logger = logging.getLogger("todo-backend")
 
 
 def get_db_connection():
@@ -35,8 +46,6 @@ def initialize_database():
                             )
                         """)
 
-                        # Preserve the two initial example todos
-                        # when the database is first created.
                         cursor.execute("SELECT COUNT(*) FROM todos")
                         count = cursor.fetchone()[0]
 
@@ -49,11 +58,15 @@ def initialize_database():
                                 ]
                             )
 
-            print("PostgreSQL database initialized", flush=True)
+            logger.info("PostgreSQL database initialized")
             return
 
         except psycopg2.OperationalError as error:
-            print(f"Waiting for PostgreSQL: {error}", flush=True)
+            logger.warning(
+                "Waiting for PostgreSQL (attempt %d/30): %s",
+                attempt + 1,
+                error
+            )
             time.sleep(2)
 
     raise RuntimeError("Could not connect to PostgreSQL")
@@ -88,8 +101,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(response.encode())
 
-            except Exception as error:
-                print(f"Database error: {error}", flush=True)
+            except Exception:
+                logger.exception("Database error while retrieving Todos")
                 self.send_response(500)
                 self.end_headers()
 
@@ -106,12 +119,31 @@ class Handler(BaseHTTPRequestHandler):
                 data = json.loads(body)
                 todo = data.get("todo", "").strip()
 
-                if not todo or len(todo) > 140:
+                # Log every submitted Todo before validation.
+                logger.info(
+                    "Received Todo: %r (length=%d)",
+                    todo,
+                    len(todo)
+                )
+
+                if not todo:
+                    logger.warning("Rejected Todo: empty Todo")
+                    self.send_response(400)
+                    self.end_headers()
+                    return
+
+                if len(todo) > 140:
+                    logger.warning(
+                        "Rejected Todo: exceeds 140 characters (length=%d)",
+                        len(todo)
+                    )
                     self.send_response(400)
                     self.end_headers()
                     return
 
                 save_todo(todo)
+
+                logger.info("Todo successfully saved to PostgreSQL")
 
                 response = json.dumps({"todo": todo})
 
@@ -121,11 +153,12 @@ class Handler(BaseHTTPRequestHandler):
                 self.wfile.write(response.encode())
 
             except (json.JSONDecodeError, AttributeError):
+                logger.warning("Rejected Todo: invalid JSON or Todo format")
                 self.send_response(400)
                 self.end_headers()
 
-            except Exception as error:
-                print(f"Database error: {error}", flush=True)
+            except Exception:
+                logger.exception("Error while saving Todo")
                 self.send_response(500)
                 self.end_headers()
 
@@ -138,6 +171,6 @@ initialize_database()
 
 server = HTTPServer(("0.0.0.0", PORT), Handler)
 
-print(f"Todo backend started on port {PORT}", flush=True)
+logger.info("Todo backend started on port %s", PORT)
 
 server.serve_forever()

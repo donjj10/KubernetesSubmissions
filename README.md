@@ -26,3 +26,4 @@
 - [2.7 Added PostgreSQL statefulset for ping-pong](./ping_pong)
 - [2.8 Added PostgreSQL statefulset for project](./todo_app)
 - [2.9 Added a cronjob for project](./todo_app)
+- [2.10 Add request logging to The project](./todo_app)
